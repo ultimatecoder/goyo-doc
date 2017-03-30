@@ -1,0 +1,334 @@
+*goyo_doc.txt*      For Vim version 7.4         Last change: 2017 March 11
+
+                 Reference Manual of goyo.vim plugin
+
+==============================================================================
+CONTENTS                                                   *Goyo-contents*
+
+    1.Introduction............................|GoyoIntro|
+        1.1.Screenshots.......................|GoyoScreenshots|
+    2.Functionality provided..................|GoyoFunctionality|
+        2.1.Global commands...................|GoyoCommands|
+        2.2.Shortcuts.........................|GoyoCommandShortcuts|
+    3.API of Goyo plugin......................|GoyoAPI|
+        3.1.Goyo global commands..............|GoyoGlobalCommands|
+        3.2.Goyo events.......................|GoyoEvents|
+        3.3.Customization especially for GVim.|GoyoGVim|
+    4.Other...................................|GoyoOther|
+        4.1.Goyo Auto disabled vim plugins....|GoyoAutodisabledVimPlugins|
+        4.2.Best compatible vim plugins.......|GoyoOtherVimPlugins|
+    5.About...................................|GoyoAbout|
+    6.License.................................|GoyoLicense|
+
+==============================================================================
+1. Introduction ~
+                                                               *GoyoIntro*
+
+The Goyo is designed for distraction free writing in vim. This plugin will help
+the writers to focus only on their writing while they are writing. The editor
+vim supports plugins and customizations largely. Such freedom adds various
+panels, windows to your window. It might be helpful to disable them while you
+are writing or programming a part of the code which requires extra
+concentration.
+
+Disabling distracted plugins one by one might take long time added with some
+extra commands. If you are the hacker you will remap them to a single command
+but Goyo is here for solving your that problem.  Writers are advisable to try
+this plugin and measure the improvements in their writing.
+
+-------------------------------------------------------------------------------
+1.1 Screenshots                                           *GoyoScreenshot*
+
+Find Goyo screenshot at below URL:
+
+  https://raw.githubusercontent.com/junegunn/i/master/goyo.png
+
+
+==============================================================================
+2. Functionality provided ~
+                                                       *GoyoFunctionality*
+
+
+------------------------------------------------------------------------------
+2.1. Commands                                               *GoyoCommands*
+
+:Goyo                                                            *':Goyo'*
+
+    Above plugin will activate the Goyo plugin if it is called without any
+    arguments.
+
+    Without any arguments: If this command is called without any arguments then
+    it will activate the Goyo window. It fires |GoyoEnter| event.
+
+                                                           *GoyoDimension*
+
+:Goyo [WIDTH] [OFFSET-X] [xHEIGHT] [OFFSET-Y]:
+
+    When |:Goyo| is called with dimension argument it will turn the Goyo plugin
+    on or resize existing window according to the given dimension arguments.
+    The {OFFSET-X} and  {OFFSET-Y} option requires + or - to identify the
+    offset value.
+
+    Follow below guidelines to know more about various options with arguments.
+
+    Example:                                                   *GoyoWidth*
+>
+        :Goyo 120
+<
+
+    Above example will activate or resize the Goyo window with the with of 120.
+
+                                                              *GoyoHeight*
+>
+        :Goyo x30
+<
+
+    Above example will activate or resize the Goyo window with the height of
+    30% from overall window
+
+                                                         *GoyoWidthHeight*
+>
+        :Goyo 120x30
+<
+
+    It will activate or resize the Goyo window with the height of 30 and width
+    of 120.
+
+                                               *GoyoWidthHeightPercentage*
+>
+        :Goyo 120x50%
+<
+
+    Example will activate or resize the Goyo window with the height as
+    percentage of 50 from overall and Width of 120.
+
+                                                             *GoyoOffsetX*
+                                                             *GoyoOffsetY*
+>
+        :Goyo 50%+25%x50%-25%
+<
+
+    Above will activate or resize the Goyo window with the width as 50% from
+    overall and an offset for X axis of +25% and height with 50% from overall
+    and -25% as an offset for the Y axis.
+
+
+:Goyo!                                                          *':Goyo!'*
+
+    Calling |:Goyo| with '!' argument will close the Goyo plugin.
+
+
+:q                                                              *GoyoExit*
+
+  When Goyo plugin is activated, calling ':q' will quit the Goyo plugin. It
+  will work same as calling |:Goyo!|.
+
+
+--------------------------------------------------------------------------------
+2.2 Shortcuts                                       *GoyoCommandShortcuts*
+
+Commands described in section 2.1 |:Goyo| can be fired using below shortcut
+keys.
+
+
+[count] <CTRL-W> >                                               *CTRL-W_>*
+
+  Increase width of the present Goyo window.
+
+[count] <CTRL-W> <                                               *CTRL-W_<*
+
+  Decrease width of the present Goyo window.
+
+[count] <CTRL-W> +                                               *CTRL-W_+*
+
+  Increase the height of the present Goyo window.
+
+[count] <CTRL-W> -                                               *CTRL-W_-*
+
+  Decrease the height of the present Goyo window.
+
+
+==============================================================================
+3. API of Goyo plugin ~
+                                                                 *GoyoAPI*
+
+goyo.vim provides global commands and various events for getting nice control
+over the plugin.
+
+------------------------------------------------------------------------------
+3.1 Goyo global commands                              *GoyoGlobalCommands*
+
+Goyo plugin provides below configuration options.
+
+                                                          *'g:goyo_width'*
+>
+    g:goyo_width
+<
+
+  The |goyo_width| option is used to set the text width when the goyo plugin is
+  activated. By default, this value is 80.
+
+                                                         *'g:goyo_height'*
+>
+    g:goyo_height
+<
+
+  The |goyo_height| option is used to set the hight of the view port when the
+  plugin is activated. By default, the value is 85%.
+
+                                                         *'g:goyo_linenr'*
+>
+    g:goyo_linenr
+<
+
+  The |goyo_linenr| is for showing line numbers when goyo plugin is active. The
+  default value is 0. Setting it to 1 will show the line numbers when the goyo
+  plugin is active.
+
+-------------------------------------------------------------------------------
+3.2 Goyo events                                               *GoyoEvents*
+
+See |GoyoAutodisabledVimPlugins| section to discover which plugins are
+automatically disabled when Goyo plugin is activated.
+
+Changing behavior like enabling/disabling other plugins for Goyo mode is done
+by executing custom functions on |GoyoEnter| or |GoyoLeave| event.
+
+
+GoyoEnter                                                      *GoyoEnter*
+
+  |GoyoEnter| event is fired at the time of loading the plugin. You can use
+  this event to enable/disable other plugins or if you want to change the
+  default settings of the Goyo window. You can set up custom routines to be
+  triggered by this event.
+
+Example:
+>
+    function! s:goyo_enter()
+      silent !tmux set status off
+      silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
+      set noshowmode
+      set noshowcmd
+      set scrolloff=999
+      Limelight
+      " ...
+    endfunction
+<
+
+  Above custom function can be triggered while putting listener on |GoyoEnter|
+  event with the below configuration.
+
+>
+
+    autocmd! User GoyoEnter nested call <SID>goyo_enter()
+
+<
+
+GoyoLeave                                                      *GoyoLeave*
+
+  |GoyoLeave| event is fired at the time when Goyo plugin is leaving the Goyo
+  mode.  You can use this event to do customization of enabling/disabling other
+  plugins or if you want to change the default settings of the Goyo window. You
+  can set up custom routines to be triggered by this event.
+
+  Example:
+>
+    function! s:goyo_leave()
+      silent !tmux set status on
+      silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
+      set showmode
+      set showcmd
+      set scrolloff=5
+      Limelight!
+      " ...
+    endfunction
+<
+
+  Above custom function can be triggered while putting listners on GoyoEnter
+  event with below configuration.
+
+>
+    autocmd! User GoyoLeave nested call <SID>goyo_leave()
+<
+
+------------------------------------------------------------------------------
+3.3 Customization especially for GVim.                          *GoyoGVim*
+
+The below is the example for configuring Gvim specific customization using Gvim
+API.
+
+>
+  function! s:goyo_enter()
+    if has('gui_running')
+      set fullscreen
+      set background=light
+      set linespace=7
+    elseif exists('$TMUX')
+      silent !tmux set status off
+    endif
+  endfunction
+
+  function! s:goyo_leave()
+    if has('gui_running')
+      set nofullscreen
+      set background=dark
+      set linespace=0
+    elseif exists('$TMUX')
+      silent !tmux set status on
+    endif
+  endfunction
+
+  autocmd! User GoyoEnter nested call <SID>goyo_enter()
+  autocmd! User GoyoLeave nested call <SID>goyo_leave()
+<
+
+
+==============================================================================
+4. Other ~
+                                                               *GoyoOther*
+
+
+------------------------------------------------------------------------------
+4.1 Goyo Auto disabled vim plugins            *GoyoAutodisabledVimPlugins*
+
+By default, below vim plugins are disabled temporarily when the Goyo plugin is
+activated.
+
+* [vim-airline](https://github.com/bling/vim-airline)
+* [vim-powerline](https://github.com/Lokaltog/vim-powerline)
+* [powerline](https://github.com/Lokaltog/powerline)
+* [lightline.vim](https://github.com/itchyny/lightline.vim)
+* [vim-signify](https://github.com/mhinz/vim-signify)
+* [vim-gitgutter](https://github.com/airblade/vim-gitgutter)
+
+
+-------------------------------------------------------------------------------
+4.2 Best compatible vim plugins                      *GoyoOtherVimPlugins*
+
+* Limelight: The plugin is best served with another vim plugin Limelight
+  (https://github.com/junegunn/limelight.vim)
+
+
+==============================================================================
+5. About ~
+                                                              *GoyoAbout*
+
+The goyo.vim is fork of the origin plugin with the same name created by
+Junegunn Choi (https://github.com/junegunn) at
+https://github.com/junegunn/goyo.vim
+
+What is the reason for forking?
+
+The fork is especially for adding the vim help file. The documentation is
+authored by Jaysinh Shukla (https://github.com/ultimatecoder). For more
+information have look to this Github issue
+https://github.com/junegunn/goyo.vim/issues/144
+
+==============================================================================
+6. License ~
+                                                             *GoyoLicense*
+
+The goyo.vim is released under the MIT licence.
+
+This vim helpfile is released under GPL-v3.
+https://github.com/ultimatecoder/goyo-doc/blob/master/LICENSE
