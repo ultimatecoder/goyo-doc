@@ -11,9 +11,12 @@ editor.
 
 You can use any of automated plugin installer such as
 [vim-pathogen](https://github.com/tpope/vim-pathogen),
-[Vundle](https://github.com/VundleVim/Vundle.vim) etc.
+[Vundle](https://github.com/VundleVim/Vundle.vim) etc. You can use [this
+guidlines](https://howchoo.com/g/ztmyntqzntm/how-to-install-vim-plugins-without-a-plugin-manager)
+for installing plugin without any manager.
 
-### How to use?
+
+### How to use documentation after installation?
 
 ```
 :help goyo_doc.txt
@@ -21,10 +24,13 @@ You can use any of automated plugin installer such as
 
 ## FAQ
 
-### Why to create new plugin for just helpfile?
+### Why to install new plugin just for vim helpfile?
 
-Reading description of this Github
-[issue](https://github.com/junegunn/goyo.vim/issues/144) will answer your this
-question.
+The main problem with Goyo plugin is that it carries very weak vim specific
+helpfile. A vimmer is habituated to find help at vim specific helpfile first.
+After few attempts I have decided to write a good helpfile for the [Goyo][goyo]
+plugin. Reading description of this Github
+[issue](https://github.com/junegunn/goyo.vim/issues/144) will justify this step.
+
 
 [goyo]: http://github.com/junegunn/goyo.vim
