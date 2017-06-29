@@ -22,6 +22,11 @@ for installing plugin without any manager.
 :help goyo_doc.txt
 ```
 
+### Download
+
+* [Vim scripts](http://www.vim.org/scripts/script.php?script_id=5546)
+
+
 ## FAQ
 
 ### Why to install new plugin just for vim helpfile?
